@@ -1,55 +1,46 @@
-def registro_estudiantes():
-    """Programa para registrar cinco estudiantes con validación.
+# Registro simple de estudiantes usando solo conceptos de la semana 5:
+# variables, condicionales, input y ciclos
 
-    - Pide nombre, edad y calificación de 5 estudiantes.
-    - Edad debe estar entre 5 y 100 inclusive.
-    - Calificación debe estar entre 0 y 5 inclusive.
-    - Si se ingresan datos inválidos, se pide de nuevo.
-    - Al final muestra:
-        * Estudiante con la calificación más alta.
-        * Estudiante con la calificación más baja.
-        * Calificación promedio de todos.
-    """
-    estudiantes = []  # cada ítem será un diccionario con keys: nombre, edad, calif
+# guardaremos la información en listas paralelas
+nombres = []
+edades = []
+calificaciones = []
 
-    for i in range(1, 6):
-        print(f"\nIngresando datos para el estudiante #{i}")
-        nombre = input("Nombre: ").strip()
+# Pedir datos de 5 estudiantes
+for i in range(5):
+    print(f"\nEstudiante {i+1}")
+    nombre = input("Nombre: ")
 
-        # validar edad
-        while True:
-            try:
-                edad = int(input("Edad (5-100): "))
-            except ValueError:
-                print("Debe ser un número entero.")
-                continue
-            if 5 <= edad <= 100:
-                break
-            print("Edad inválida, debe estar entre 5 y 100.")
+    # validar edad
+    edad = int(input("Edad (5-100): "))
+    while edad < 5 or edad > 100:
+        print("Edad inválida, debe ser entre 5 y 100.")
+        edad = int(input("Edad (5-100): "))
 
-        # validar calificación
-        while True:
-            try:
-                calif = float(input("Calificación (0-5): "))
-            except ValueError:
-                print("Debe ser un número válido.")
-                continue
-            if 0 <= calif <= 5:
-                break
-            print("Calificación inválida, debe estar entre 0 y 5.")
+    # validar calificación
+    calif = float(input("Calificación (0-5): "))
+    while calif < 0 or calif > 5:
+        print("Calificación inválida, debe ser entre 0 y 5.")
+        calif = float(input("Calificación (0-5): "))
 
-        estudiantes.append({"nombre": nombre, "edad": edad, "calif": calif})
+    nombres.append(nombre)
+    edades.append(edad)
+    calificaciones.append(calif)
 
-    # calcular estadísticas
-    mejor = max(estudiantes, key=lambda e: e["calif"])
-    peor = min(estudiantes, key=lambda e: e["calif"])
-    promedio = sum(e["calif"] for e in estudiantes) / len(estudiantes)
+# Buscar mejor y peor
+indice_mejor = 0
+indice_peor = 0
+suma = 0.0
+for j in range(5):
+    suma += calificaciones[j]
+    if calificaciones[j] > calificaciones[indice_mejor]:
+        indice_mejor = j
+    if calificaciones[j] < calificaciones[indice_peor]:
+        indice_peor = j
 
-    print("\n--- Resultados ---")
-    print(f"Mejor calificación: {mejor['calif']}  Estudiante: {mejor['nombre']}")
-    print(f"Peor calificación: {peor['calif']}  Estudiante: {peor['nombre']}")
-    print(f"Calificación promedio: {promedio:.2f}")
+promedio = suma / 5
 
-
-if __name__ == "__main__":
-    registro_estudiantes()
+print("\n--- Resultados ---")
+print("Mejor calificación:", calificaciones[indice_mejor], "-", nombres[indice_mejor])
+print("Peor calificación:", calificaciones[indice_peor], "-", nombres[indice_peor])
+print("Promedio:", promedio)
